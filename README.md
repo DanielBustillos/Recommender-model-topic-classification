@@ -68,9 +68,8 @@ La frecuencia del término es decir, el número de veces que se produce un
 término en un documento determinado, se multiplica con el componente idf, que
 es calculado como:
 
-<center>
-<img src="https://latex.codecogs.com/svg.latex?\Large&space;idf(t) = \log{\frac{1 + n}{1+df(t)}}"/>
-</center>
+$ \log{\frac{1 + n}{1+df(t)}} $
+
 
 ##### Ejemplo
 
