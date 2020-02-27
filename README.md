@@ -5,7 +5,7 @@ clases óptimas con un conjunto de textos de acuerdo a la similitud de sus texto
 
 Este proyecto puede aplicarse a textos donde se necesita sugerir una o varias
 clases, entiéndase clase como  individuos, personas, temas o textos. Por ejemplo,
-si **se quiere encontrar al autor o evaluador más afín a un conjunto de textos**.
+si **se quiere encontrar al autor o un evaluador especializado más afín a un conjunto de textos**.
 
 Se hace uso de herramientas de procesamiento de lenguaje Natural ([NLP](https://en.wikipedia.org/wiki/Natural_language_processing))  para comparar el contenido
 semántico del texto de la descripción del texto a encontrar sugerencia con la
@@ -249,11 +249,6 @@ guardar el vectorizador, la matriz NMF y el vector de tópicos por clase.
 - Valores altos del número de componentes pueden provocar overfitting.[5]
 
 - El tiempo de ejecución es de alrededor de 8 horas.
-
-
-### 2. Recomendación de clases para Nuevas Convocatorias.
-
-Se planea implementar la búsqueda de los clases directamente en elastic-search, actualmente la recomendación de clases se realiza en dos pasos:
 
 
 ##### Generación de Vectores de Tópicos de los textos a evaluar
