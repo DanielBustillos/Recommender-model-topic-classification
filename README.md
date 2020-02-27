@@ -1,33 +1,23 @@
-## Selección de Evaluadores para Propuestas de Proyecto de Convocatorias CONACyT
-#### CCD - CONACyT
-Contacto: datos.analisis02@conacyt.com.mx
+## Sistema Recomendador usando text classification
 
 
-Este proyecto tiene como objetivo automatizar el proceso de búsqueda de los
-evaluadores óptimos para la propuestas de proyectos de las convocatorias CONACyT.
+Este texto tiene como objetivo automatizar el proceso de búsqueda de los
+sujetos óptimos de acuerdo a la similuitud de su bolsa de textos con un
+conjunto de textos como textos o textos.
+
+Este texto puede aplicarse a textos donde se necesita sugerir unna clase,
+entiéndase clase como  individuos, personas, temas o textos.
 
 Se hace uso de herramientas de procesamiento de lenguaje Natural ([NLP](https://en.wikipedia.org/wiki/Natural_language_processing))  para comparar el contenido
-semántico del texto de la descripción de la propuesta a evaluar con la
-descripción de las propuestas evaluadas previamente por el conjunto de evaluadores.
-Se escogen los 10 evaluadores que hayan evaluado las propuestas más similares a la
-propuesta a evaluar.
+semántico del texto de la descripción del texto a encontrar sugerencia con la
+descripción los textos de las clases.
 
+Se sugieren las 10 clases que tengan los textos más similares al del texto a
+recomendar.
+
+#### -- Project Status: [On-Hold]
 ***
 
-A partír de la información recopilada de las convocatorias de años anteriores
-tales cómo:
-
--  Problemas Nacionales
--  Ciencia de Frontera
--  MIIC
--  Cátedras
-
-Se extrae el texto de cada solicitud, se aplica un proceso de limpieza y [obtención de
-raíces (steamming)](https://scikit-learn.org/stable/modules/feature_extraction.html), posteriormente se [vectoriza](https://www.kaggle.com/edchen/text-vectorization) cada texto usando [TF-IDF](https://scikit-learn.org/stable/modules/feature_extraction.html?highlight=tfidf), se usa [NMF](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.NMF.html) para obtener *clusters* o tópicos y finalmente se promedia el vector de tópicos de
-cada texto para obtener el vector por evaluador.
-
-![Pipeline_inicial_sin_detalle](./recursos/pipeline.png)
-   >Pipeline de entrenamiento y de la recomendación de evaluadores.
 
 ### **1. Limpieza de textos y Steamming (obtención de raíces)**
 
@@ -39,7 +29,7 @@ cada texto para obtener el vector por evaluador.
 ###### Steamming:
 
 - Obtiene las raíces de las palabreas de la descripción de cada
-proyecto.
+texto.
 
 Por razones gramaticales, las descripciones utilizarán diferentes formas de una palabra, como organizar, organización y organiza. Además, hay familias de palabras derivadas relacionadas con significados similares, como democracia, democratización y democrático. En muchas situaciones, es útil para una búsqueda de una de estas palabras devolver documentos que contienen otra palabra en el conjunto. [1]
 
@@ -53,12 +43,12 @@ El resultado de este proceso será el algo muy parecido a lo siguiente:
 
 Con este proceso nos acercamos a obtener únicamente el contenido semántico
 del texto y nos deshacemos de inflexiones o palabras que no nos
-aportan información acerca del área de estudio de la descripción del proyecto.
+aportan información acerca del área de estudio de la descripción del texto.
 
 ### **2. Vectorización TF-IDF**
 
 - Genera un vectorizador de textos usando tf-idf.
-- Obtiene los vectores de importancia de palabra cada proyecto.
+- Obtiene los vectores de importancia de palabra cada texto.
 
 
 Tf-idf significa *Term Frequency - Inverse Term Frequency*, tf-idf es utilizado en la recuperación de información y minería de texto. TF-idf es una medida estadística utilizada para evaluar la importancia de una palabra para un documento en una colección
@@ -132,7 +122,7 @@ Se desea descomponer la matriz matriz de palabras-documentos obtenida con TF-IDF
 
 > ¿Qué sucede cuando descomponemos la matríz TF-IDF en dos matrices?
 
-Si la descripción de un conjunto de proyectos es de física estadística. Es probable que la palabra "distribución" aparezca en los artículos relacionados con los el tema  y, por lo tanto, coincida con palabras como "modelo" y "macroscópico". Por lo tanto, estas palabras probablemente se agruparían en un vector componente de "física estadística", y cada artículo tendría un cierto peso del tema.
+Si la descripción de un conjunto de textos es de física estadística. Es probable que la palabra "distribución" aparezca en los artículos relacionados con los el tema  y, por lo tanto, coincida con palabras como "modelo" y "macroscópico". Por lo tanto, estas palabras probablemente se agruparían en un vector componente de "física estadística", y cada artículo tendría un cierto peso del tema.
 
 >![Pipeline_inicial_sin_detalle](./recursos/nmf_descomposicion.png)
    Esquema de la descomposición de la matríz TF-IDF usando NMF. Obtenido de: [http://www.issac-conference.org/2015/Slides/Moitra.pdf](http://www.issac-conference.org/2015/Slides/Moitra.pdf)
@@ -141,18 +131,18 @@ Si la descripción de un conjunto de proyectos es de física estadística. Es pr
 Por lo tanto, una descomposición NMF de la matriz de términos y documentos generaría componentes que podrían considerarse "temas" o topicos, y descompondría cada documento en una suma ponderada de temas. Esto se llama **topic modelling** y es una aplicación importante de NMF.
 
 
-###  **4. Generación del Vector de Tópicos por Evaluador**
-- Genera un vector de pertenencia de tópicos para cada evaluador.
+###  **4. Generación del Vector de Tópicos por Clase**
+- Genera un vector de pertenencia de tópicos para cada clase. El numero de
+dimensiones lo indica el grid search.
 
-Todo el proceso descrito hasta ahora se...
 
 ###  **5. Evaluación del Modelo**
 
 La métrica de evaluación se seleccionó con el objetivo de
-generar un modelo que recomiende, para un mismo proyecto,
-los mismos evaluadores que evaluaron el proyecto.
-Por este motivo se eligio tomar como metrica el número de coincidencias entrenamiento el conjunto de evaluadores reales *i.e.* los elegidos
-y los evaluadores recomendados por el modelo:
+generar un modelo que recomiende, para un mismo texto,
+las mismos clases que evaluaron el texto.
+Por este motivo se eligio tomar como metrica el número de coincidencias entrenamiento el conjunto de clases reales *i.e.* los elegidos
+y las clases recomendados por el modelo:
 
 <center>
 <img src="https://latex.codecogs.com/svg.latex?\Large&space;
@@ -164,17 +154,17 @@ Score =\frac{1}{m} \sum_{doc=1}^{m} {\small\text{cardinalidad} } \{eval_{sug}^{d
 Donde <img src="https://latex.codecogs.com/svg.latex?\Large&space;
 m"/> es el número de documentos totales y <img src="https://latex.codecogs.com/svg.latex?\Large&space;
 {\tiny eval_{sug}^{doc}, eval_{real}^{doc}}"/> son los vectores de cada documentos
-de topicos de los evaluadores sugeridos y reales respectivamente. Bajo esta
-métrica, cuando todos los evaluadores recomendados son iguales a los Evaluadores
+de topicos de las clases sugeridos y reales respectivamente. Bajo esta
+métrica, cuando todos las clases recomendadas son iguales a los clases
 reales, el resultado es 1.0 y cuando no coincide ningun elemento de los dos
 conjuntos es 0.0.
 
-###  **6. Recomendación de Evaluadores**
+###  **6. Recomendación de clases**
 
-Para seleccionar los evaluadores de un proyecto, se procede comparando el vector de tópicos del proyecto con los vectores de tópicos de todos los evaluadores.
+Para seleccionar los clases de un texto, se procede comparando el vector de tópicos del texto con los vectores de tópicos de todas las clases.
 
 >![Pipeline_inicial_sin_detalle](./recursos/cosine_similarity.png)
-   Esquema de la comparación del vector de tópicos de un documentos y de un evaluador .
+   Esquema de la comparación del vector de tópicos de un documentos y de un clase .
 
 Se utiliza [cosine similarity](https://www.machinelearningplus.com/nlp/cosine-similarity/) como métrica de similitud:
 
@@ -185,11 +175,7 @@ Se utiliza [cosine similarity](https://www.machinelearningplus.com/nlp/cosine-si
 </center>
 <br/>
 
-Se toman los N evaluadores que tengan mayor similitud con el vector del proyecto.
-
-###  **7. Filtro de Evaluadores**
-
-
+Se toman las N clases que tengan mayor similitud con el vector del texto.
 
 
 ---
@@ -197,7 +183,7 @@ Se toman los N evaluadores que tengan mayor similitud con el vector del proyecto
 
 El código está escrito en Python y consiste en un script '**pipeline_train_test**'
  donde todo el procedimiento se lleva a cabo llamando a funciones de tres módulos: **'CleanTools'** para aplicar una limpieza y steamming a los textos (paso 1), **'AlgoritmosPipeline'** para aplicar el proceso de TF-idf, NMF y la generación
- de vector de tópicos por evaluador (pasos 2, 3, 4) y **'ScorePipelineCoincidencias '** para obtener el desempeño del modelo usando la métrica descrita en el paso
+ de vector de tópicos por clase (pasos 2, 3, 4) y **'ScorePipelineCoincidencias '** para obtener el desempeño del modelo usando la métrica descrita en el paso
  5.
 
  | Proceso                                          | Archivo                     |
@@ -205,23 +191,23 @@ El código está escrito en Python y consiste en un script '**pipeline_train_tes
 | 1. Limpieza                                      | cleaning_steamming.py       |
 | 2. Vectorización TF-IDF                          | algoritmos_entrenamiento.py |
 | 3. Matríz de Pertenencia NMF                     | algoritmos_entrenamiento.py |
-| 4. Generación de vector de Tópicos por Evaluador | algoritmos_entrenamiento.py |
+| 4. Generación de vector de Tópicos por clase | algoritmos_entrenamiento.py |
 | 5. Evaluación del Modelo                         | score.py                    |
 
 
 
 #####  Archivos de entrenamiento y modelos entrenados:
 Archivos de entrenamiento:
-- [Muestra de 5 proyectos por evaluador](https://pub.ccd.conacyt.mx/s/Sr4R8BPinwWEaL2)
-- [Muestra de 10 proyectos por evaluador](https://pub.ccd.conacyt.mx/s/Sr4R8BPinwWEaL2)
+- [Muestra de 5 textos por clase](https://pub.ccd.conacyt.mx/s/Sr4R8BPinwWEaL2)
+- [Muestra de 10 textos por clase](https://pub.ccd.conacyt.mx/s/Sr4R8BPinwWEaL2)
 
 Modelos Entrenados:
 
 - [Vectorizador TF-IDF]()
 - [Matriz NMF]()
 
-Vector de tópicos por evaluador:
-- [Tópicos por evaluador]()
+Vector de tópicos por clase:
+- [Tópicos por clase]()
 
 #####  Dependencias
 
@@ -244,27 +230,13 @@ Estos módulos pueden encontrarse en '**requirements.txt**'.
 
 La ingesta de las tablas de entrenamiento necesita los siguientes campos:
 
-
-| Campo                | Descripción                                                                  |
-|----------------------|------------------------------------------------------------------------------|
-| NUMERO_CONVOCATORIA  | Nombre de la convocatoria                                                    |
-| ANIO                 | Año de la convocatoria                                                       |
-| ID_PROYECTO          | Identificador del proyecto                                                   |
-| AREA                 | Area del proyecto                                                            |
-| CAMPO                | Campo del proyecto                                                           |
-| DISCIPLINA           | Disciplina del proyecto                                                      |
-| SUBDISCIPLINA        | Subdisciplina del proyecto                                                   |
-| DESCRIPCION_PROYECTO | Descripción del proyecto en español, se compone de entre 600 y 3000 palabras |
-| CVU | Identificador del evaluador que evaluó el proyecto. |
-
-
-El método de ingesta se automatizará. Actualmente se hace una query en las bases de Peoplesoft y Oracle para cada convocatoria y se unen en '**./notebooks/preprocesamiento/preprocesamiento_datos_entrenamiento.ipynb**'.
+      Datos no publicos...
 
 ### 1.  Entrenamiento del modelo
 - Solo necesario si se desea volver a entrenar el modelo.
 
 La búsqueda de parámetros se encuentra en el
-archivo **'grid_search'**. Se tomó una muestra de 10,00 proyectos  debido a que el tiempo del proceso de cada iteración es es de 6 horas con esta muestra.
+archivo **'grid_search'**. Se tomó una muestra de 10,00 textos  debido a que el tiempo del proceso de cada iteración es es de 6 horas con esta muestra.
 
 1. Verificar que todas las dependencias estén instaladas.
 2.  Verificar que el archivo de entrenamiento  **'datos_training_n_eval_5_sample.pkl'** se encuentre en la ruta '**./data/entrenamiento/**'.
@@ -274,7 +246,7 @@ se encuentra un análisis de los resultados.
 
 4. Introduzca los parámetros seleccionados y ejecute el archivo
 '**entrenamiento**' para entrenar el modelo con el todos los datos y
-guardar el vectorizador, la matriz NMF y el vector de tópicos por evaluador.
+guardar el vectorizador, la matriz NMF y el vector de tópicos por clase.
 
 **Notas:**
 
@@ -283,33 +255,33 @@ guardar el vectorizador, la matriz NMF y el vector de tópicos por evaluador.
 - El tiempo de ejecución es de alrededor de 8 horas.
 
 
-### 2. Recomendación de Evaluadores para Nuevas Convocatorias.
+### 2. Recomendación de clases para Nuevas Convocatorias.
 
-Se planea implementar la búsqueda de los evaluadores directamente en elastic-search, actualmente la recomendación de evaluadores se realiza en dos pasos:
+Se planea implementar la búsqueda de los clases directamente en elastic-search, actualmente la recomendación de clases se realiza en dos pasos:
 
 
-##### Generación de Vectores de Tópicos de los proyectos a evaluar
+##### Generación de Vectores de Tópicos de los textos a evaluar
 
-Se obtiene el vector de tópicos de cada proyecto. Una vez que el modelo está entrenado, es posible obtener el vector de tópicos para nuevos proyectos.
+Se obtiene el vector de tópicos de cada texto. Una vez que el modelo está entrenado, es posible obtener el vector de tópicos para nuevos textos.
 
 1. Es necesario que el formato de la tabla siga lo descrito en la sección de ingesta de datos, omitiendo
-el campo CVU del evaluador ya que este es el que se asignará.
+el campo CVU del clase ya que este es el que se asignará.
 
-1. Verificar que las tablas de los proyectos a obtener el
+1. Verificar que las tablas de los textos a obtener el
 vector de tópicos se encuentre en '**"./data/entrenamiento/**'.
 
-2. Ejecute el archivo '**propuesta_evaluadores**' para obtener los N evaluadores sugeridos por el modelo.
+2. Ejecute el archivo '**propuesta_clases**' para obtener los N clases sugeridos por el modelo.
 
-La tabla final se encuentra en **./trained_modelos/resultados/propuesta_evaluadores.csv'** los resultados obtenidos contienen el id del proyecto, el CVU del evaluador y el score del cosine similarity obtenido entre ele vector del texto y el vector del evaluador:
+La tabla final se encuentra en **./trained_modelos/resultados/propuesta_clases.csv'** los resultados obtenidos contienen el id del texto, el CVU del clase y el score del cosine similarity obtenido entre ele vector del texto y el vector del clase:
 
-| id_proyecto | CVU | score_tm |
+| id_texto | CVU | score_tm |
 |-------------|-------|--------------------|
-| 101712 | 11712 | 0.557|
-| 101712 | 21227 | 0.542 |
-| 101712 | 19387 | 0.507|
-| 101712 | 12385 | 0.504|
-| 101712 | 7392 | 0.502|
-| 840334 | 6465 | 0.525|
+| 104412 | 43 | 0.557|
+| 104412 | 432 | 0.542 |
+| 104412 | 242 | 0.507|
+| 104412 | 654 | 0.504|
+| 104412 | 456 | 0.502|
+| 847634 | 345 | 0.525|
 
 ---
 ### Referencias
