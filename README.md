@@ -1,18 +1,17 @@
-## Sistema Recomendador usando text classification
+## Sistema Recomendador de clases a parír de textos
 
+Este proyecto tiene como objetivo automatizar el proceso de búsqueda de las
+clases óptimas con un conjunto de textos de acuerdo a la similitud de sus textos.
 
-Este texto tiene como objetivo automatizar el proceso de búsqueda de los
-sujetos óptimos de acuerdo a la similuitud de su bolsa de textos con un
-conjunto de textos como textos o textos.
-
-Este texto puede aplicarse a textos donde se necesita sugerir unna clase,
-entiéndase clase como  individuos, personas, temas o textos.
+Este proyecto puede aplicarse a textos donde se necesita sugerir una o varias
+clases, entiéndase clase como  individuos, personas, temas o textos. Por ejemplo,
+si **se quiere encontrar al autor o evaluador más afín a un conjunto de textos**.
 
 Se hace uso de herramientas de procesamiento de lenguaje Natural ([NLP](https://en.wikipedia.org/wiki/Natural_language_processing))  para comparar el contenido
 semántico del texto de la descripción del texto a encontrar sugerencia con la
 descripción los textos de las clases.
 
-Se sugieren las 10 clases que tengan los textos más similares al del texto a
+Se sugieren las 10 clases que contengan los textos más similares al del texto a
 recomendar.
 
 #### -- Project Status: [On-Hold]
