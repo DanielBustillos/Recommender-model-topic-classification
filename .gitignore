@@ -15,6 +15,15 @@ env_connvocatorias/
 *.PKL
 # C extensions
 *.so
+/notebooks/andres
+/notebooks/diccionario_areas
+/notebooks/elastic_search
+/notebooks/propuesta_evaluadores
+
+
+
+CB-topicos-pipeline.ipynb
+CB-topicos-pipeline-sin_empaquetar.ipynb
 
 /jupyterhub_cookie_secret
 /jupyterhub-proxy.pid
