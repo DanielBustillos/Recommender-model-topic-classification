@@ -26,6 +26,10 @@ env_connvocatorias/
 RCEA-FiltrarMatch.ipynb
 Untitled.ipynb
 
+/data/*
+Data/
+/data
+
 
 CB-topicos-pipeline.ipynb
 CB-topicos-pipeline-sin_empaquetar.ipynb
