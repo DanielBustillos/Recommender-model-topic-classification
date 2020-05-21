@@ -1,4 +1,4 @@
-## Sistema Recomendador de clases a parír de textos
+## Sistema Recomendador a partír de textos
 
 Este proyecto tiene como objetivo automatizar el proceso de búsqueda de las
 clases óptimas con un conjunto de textos de acuerdo a la similitud de sus textos.
