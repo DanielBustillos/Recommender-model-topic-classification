@@ -6,6 +6,8 @@ import torch
 import time
 
 
+
+
 class EntrenamientoProducto():
     def __init__(self):
         self.resultados_ = None
