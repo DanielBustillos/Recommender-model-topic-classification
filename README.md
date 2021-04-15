@@ -265,14 +265,14 @@ vector de tópicos se encuentre en '**"./data/entrenamiento/**'.
 
 La tabla final se encuentra en **./trained_modelos/resultados/propuesta_clases.csv'** los resultados obtenidos contienen el id del texto, el CVU del clase y el score del cosine similarity obtenido entre ele vector del texto y el vector del clase:
 
-| id_texto | CVU | score_tm |
+| id_texto | reviewer_id | score_tm |
 |-------------|-------|--------------------|
-| 104412 | 43 | 0.557|
-| 104412 | 432 | 0.542 |
-| 104412 | 242 | 0.507|
-| 104412 | 654 | 0.504|
-| 104412 | 456 | 0.502|
-| 847634 | 345 | 0.525|
+| 104412 | 4d2322 | 0.557|
+| 104412 | 43g422 | 0.542 |
+| 104412 | 32f442 | 0.507|
+| 104412 | 64c2354 | 0.504|
+| 104412 | 44r356 | 0.502|
+| 847634 | 33e445 | 0.525|
 
 ---
 ### Referencias
