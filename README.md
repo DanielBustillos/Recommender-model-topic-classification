@@ -15,12 +15,10 @@ Se sugieren las 10 clases que contengan los textos más similares al del texto a
 recomendar.
 
 #### -- Project Status: [On-Hold]
-***
-
 
 ### **1. Limpieza de textos y Steamming (obtención de raíces)**
 
-###### Limpieza:
+###### Limpieza de textos:
 - Convierte caracteres de utf8 a ascii y elimina errores.
 - Elimina filas con entradas vacías.
 - Se deshace de palabras con un número de carácteres menor a 3.
